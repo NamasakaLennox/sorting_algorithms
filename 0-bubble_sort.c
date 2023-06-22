@@ -17,7 +17,7 @@ void bubble_sort(int *array, size_t size)
 	{
 		/*
 		 * optimize variable is used to save on time
-		 * everytime the largest object appears on the far most left
+		 * everytime the largest object appears on the far most right
 		 */
 		for (j = 0; j < optimize; j++)
 		{
