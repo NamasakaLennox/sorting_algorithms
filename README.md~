@@ -1,0 +1,8 @@
+# 0x1B. C - Sorting algorithms & Big O
+
+## 0-bubble_sort.c
+function that sorts an array of integers in ascending order using the Bubble sort algorithm
+Write in the file 0-O, the big O notations of the time complexity of theBubble sort algorithm, with 1 notation per line:
+in the best case
+in the average case
+in the worst case
