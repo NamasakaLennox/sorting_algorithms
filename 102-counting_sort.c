@@ -32,15 +32,15 @@ void counting_sort(int *array, size_t size)
 		count[j + 1] += count[j];
 	print_array(count, k + 1);
 	/* replace items in a sorted manner in old list */
+	new_count = malloc(sizeof(int) * size);
+	if (new_count == NULL)
+		return;
 	for (i = 0; i < size; i++)
-	{
-		j = count[array[i]] - 1;
-		if (array[i] != array[j])
-		{
-			k = array[i];
-			array[i] = array[j];
-			array[j] = k;
-		}
-	}
+		new_count[--count[array[i]]] = array[i];
+
+	for (i = 0; i < size; i++)
+		array[i] = new_count[i];
+
+	free(new_count);
 	free(count); /* free allocated memory block */
 }
