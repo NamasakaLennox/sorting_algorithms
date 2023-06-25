@@ -12,10 +12,6 @@ void merge_array(int *copy, int *array, int left, int mid, int right)
 {
 	int i, j, k;
 
-	/* copy the array to the buffer */
-	for (i = left; i <= right; i++)
-		copy[i] = array[i];
-
 	printf("Merging...\n");
 	printf("left: ");
 	print_array(copy + left, mid - left);
@@ -79,13 +75,21 @@ void split(int *copy, int *array, int left, int right)
 void merge_sort(int *array, size_t size)
 {
 	int *array_copy;
+	size_t i = 0;
 
 	if (array == NULL || size < 2)
 		return;
 
 	array_copy = malloc(sizeof(int) * size);
 	if (array_copy == NULL)
-		return;
+		exit(EXIT_FAILURE);
+
+	/* copy the array to the buffer */
+	while (i < size)
+	{
+		array_copy[i] = array[i];
+		i++;
+	}
 
 	split(array_copy, array, 0, size - 1);
 	free(array_copy);
