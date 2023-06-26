@@ -13,9 +13,9 @@ void merge_array(int *copy, int *array, int left, int mid, int right)
 	int i, j, k;
 
 	printf("Merging...\n");
-	printf("left: ");
+	printf("[left]: ");
 	print_array(copy + left, mid - left);
-	printf("right: ");
+	printf("[right]: ");
 	print_array(copy + mid, right - mid + 1);
 
 	i = left;
