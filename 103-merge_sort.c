@@ -8,39 +8,32 @@
  * @right: the right most index
  * @mid: the mid item(index)
  */
-void merge_array(int *copy, int *array, int left, int mid, int right)
+void merge_array(int *copy, int *array, size_t left, size_t mid, size_t right)
 {
-	int i, j, k;
+	size_t i = left, j = mid, k = left;
 
 	printf("Merging...\n");
 	printf("[left]: ");
 	print_array(copy + left, mid - left);
 	printf("[right]: ");
-	print_array(copy + mid, right - mid + 1);
+	print_array(copy + mid, right - mid);
 
-	i = left;
-	j = mid;
-	k = left;
-
-	/* merge and sort */
-	while (k <= right)
+	while (k < right)
 	{
-		if (i < mid && j <= right)
+		if (i < mid && (j >= right || copy[i] <= copy[j]))
 		{
-			/* swap */
-			if (copy[i] > copy[j])
-				array[k++] = copy[j++];
-			else /* maintain their index */
-				array[k++] = copy[i++];
+			array[k] = copy[i];
+			i++;
 		}
-		else if (i < mid)
-			array[k++] = copy[i++];
 		else
-			array[k++] = copy[j++];
+		{
+			array[k] = copy[j];
+			j++;
+		}
+		k++;
 	}
-
 	printf("[Done]: ");
-	print_array(array + left, right - left + 1);
+	print_array(array + left, right - left);
 }
 
 /**
@@ -50,21 +43,20 @@ void merge_array(int *copy, int *array, int left, int mid, int right)
  * @left: index of the left most item
  * @right: the index of the right most item
  */
-void split(int *copy, int *array, int left, int right)
+void split(int *copy, int *array, size_t left, size_t right)
 {
-	int mid, diff;
+	size_t mid = 0;
 
-	if (left < right)
-	{
-		diff = right - left;
-		diff += diff % 2;
-		mid = left + (diff / 2);
+	if (right - left < 2)
+		return;
 
-		split(copy, array, left, mid - 1);
-		split(copy, array, mid, right);
+	mid = (left + right) / 2;
+	split(copy, array, left, mid);
+	split(copy, array, mid, right);
+	merge_array(copy, array, left, mid, right);
 
-		merge_array(copy, array, left, mid, right);
-	}
+	for (mid = left; mid < right; mid++)
+		copy[mid] = array[mid];
 }
 
 /**
@@ -82,7 +74,7 @@ void merge_sort(int *array, size_t size)
 
 	array_copy = malloc(sizeof(int) * size);
 	if (array_copy == NULL)
-		exit(EXIT_FAILURE);
+		return;
 
 	/* copy the array to the buffer */
 	while (i < size)
@@ -91,6 +83,7 @@ void merge_sort(int *array, size_t size)
 		i++;
 	}
 
-	split(array_copy, array, 0, size - 1);
+	split(array_copy, array, 0, size);
+
 	free(array_copy);
 }
